@@ -16,6 +16,26 @@ import { Link as ReactLink } from "react-router-dom";
 import { HamburgerIcon, CloseIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import { GiTechnoHeart } from "react-icons/gi";
 
+const links = [
+  { linkName: "Products", path: "/products" },
+  { linkName: "ShoppingCart", path: "/cart" },
+];
+const NavLink = ({ path, children }) => (
+  <Link
+    as={ReactLink}
+    to={path}
+    px={2}
+    py={2}
+    rounded='md'
+    _hover={{
+      textDecoration: "none",
+      bg: useColorModeValue("gray.300", "gray.700"),
+    }}
+  >
+    {children}
+  </Link>
+);
+
 const Navbar = () => {
   const { isOpen, onClose, onOpen } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
@@ -26,7 +46,7 @@ const Navbar = () => {
           size='md'
           icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
           display={{ md: "none" }}
-          onclick={isOpen ? onClose : onOpen}
+          onClick={isOpen ? onClose : onOpen}
         />
         <HStack>
           <Link as={ReactLink} to='/'>
@@ -35,8 +55,61 @@ const Navbar = () => {
               <Text fontWeight='extrabold'>Amrolo</Text>
             </Flex>
           </Link>
+          <HStack as='nav' spacing={4} display={{ base: "none", md: "flex" }}>
+            {links.map((link) => (
+              <NavLink key={link.linkName} path={link.path}>
+                {link.linkName}
+              </NavLink>
+            ))}
+          </HStack>
         </HStack>
+        <Flex alignItems='center'>
+          <NavLink>
+            <Icon
+              as={colorMode === "light" ? MoonIcon : SunIcon}
+              alignSelf='center'
+              onClick={() => toggleColorMode()}
+            />
+          </NavLink>
+          <Button
+            as={ReactLink}
+            p={2}
+            fontSize='sm'
+            fontWeight={400}
+            variant='link'
+            to='/login'
+          >
+            Sign In
+          </Button>
+          <Button
+            as={ReactLink}
+            to='/registration'
+            m={2}
+            display={{ base: "none", md: "inline-flex" }}
+            fontSize='sm'
+            fontWeight={600}
+            bg='orange.500'
+            color='white'
+            _hover={{ bg: "orange.400" }}
+          >
+            Sign Up
+          </Button>
+        </Flex>
       </Flex>
+      {isOpen ? (
+        <Box pb={4} display={{ md: "none" }}>
+          <Stack as='nav' spacing={4}>
+            {links.map((link) => (
+              <NavLink key={link.linkName} path={link.path}>
+                {link.linkName}
+              </NavLink>
+            ))}
+            <NavLink key='sign up' path='/registration'>
+              Sign Up
+            </NavLink>
+          </Stack>
+        </Box>
+      ) : null}
     </Box>
   );
 };

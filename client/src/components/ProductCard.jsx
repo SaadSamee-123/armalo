@@ -16,38 +16,35 @@ import {
 import { FiShoppingCart } from "react-icons/fi";
 import { Link as ReactLink } from "react-router-dom";
 import { StarIcon } from "@chakra-ui/icons";
-import { useState } from "react";
 
-const Rating = ({ rating, NumReviews }) => {
-  const { iconSize, setIconSize } = useState("14px");
-
+const Rating = ({ rating, numberOfReviews }) => {
   return (
     <Flex>
       <HStack spacing='2px'>
-        <StarIcon size={iconSize} width='14px' color='orange.500' />
+        <StarIcon size='14px' width='14px' color='orange.500' />
         <StarIcon
-          size={iconSize}
+          size='14px'
           width='14px'
           color={rating >= 2 ? "orange.500" : "gray"}
         />
         <StarIcon
-          size={iconSize}
+          size='14px'
           width='14px'
           color={rating >= 3 ? "orange.500" : "gray"}
         />
         <StarIcon
-          size={iconSize}
+          size='14px'
           width='14px'
           color={rating >= 4 ? "orange.500" : "gray"}
         />
         <StarIcon
-          size={iconSize}
+          size='14px'
           width='14px'
           color={rating >= 5 ? "orange.500" : "gray"}
         />
       </HStack>
-      <Text fontSize='md' fontWeight='bold' ml='4px'>{`${NumReviews} ${
-        NumReviews === 1 ? "Review" : "Reviews"
+      <Text fontSize='md' fontWeight='bold' ml='4px'>{`${numberOfReviews} ${
+        numberOfReviews === 1 ? "Review" : "Reviews"
       }`}</Text>
     </Flex>
   );
@@ -66,7 +63,7 @@ const ProductCard = ({ product }) => {
       shadow='lg'
       position='relative'
     >
-      {product.isNew && (
+      {product.productIsNew && (
         <Circle
           size='10px'
           position='absolute'
@@ -91,7 +88,7 @@ const ProductCard = ({ product }) => {
             Sold out
           </Badge>
         )}
-        {product.isNew && (
+        {product.productIsNew && (
           <Badge rounded='full' px='2' fontSize='0.8em' color='green'>
             New
           </Badge>
@@ -110,7 +107,10 @@ const ProductCard = ({ product }) => {
         </Link>
       </Flex>
       <Flex justifyContent='space-between' alignContent='center' py='2'>
-        <Rating rating={product.rating} NumReviews={product.numReviews} />
+        <Rating
+          rating={product.rating}
+          numberOfReviews={product.numberOfReviews}
+        />
       </Flex>
       <Flex justify='space-between'>
         <Box fontSize='2xl' color={useColorModeValue("gray.800", "white")}>
